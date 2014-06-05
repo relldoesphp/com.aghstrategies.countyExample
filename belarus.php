@@ -146,13 +146,13 @@ function belarus_listcounties() {
 }
 
 function belarus_updateStates() {
-	CRM_Core_DAO::executeQuery("UPDATE civicrm_state_province SET name='Витебская область' WHERE id=2001", CRM_Core_DAO::$_nullArray);
-	CRM_Core_DAO::executeQuery("UPDATE civicrm_state_province SET name='Минская область' WHERE id=2000", CRM_Core_DAO::$_nullArray);
+  CRM_Core_DAO::executeQuery("UPDATE civicrm_state_province SET name='Витебская область' WHERE id=2001", CRM_Core_DAO::$_nullArray);
+  CRM_Core_DAO::executeQuery("UPDATE civicrm_state_province SET name='Минская область' WHERE id=2000", CRM_Core_DAO::$_nullArray);
   CRM_Core_DAO::executeQuery("UPDATE civicrm_state_province SET name='Могилевская область' WHERE id=1999", CRM_Core_DAO::$_nullArray);
   CRM_Core_DAO::executeQuery("UPDATE civicrm_state_province SET name='Гродненская область' WHERE id=1998", CRM_Core_DAO::$_nullArray);
   CRM_Core_DAO::executeQuery("UPDATE civicrm_state_province SET name='Гомельская область' WHERE id=1997", CRM_Core_DAO::$_nullArray);
   CRM_Core_DAO::executeQuery("UPDATE civicrm_state_province SET name='Брестская область' WHERE id=1996", CRM_Core_DAO::$_nullArray);
- // CRM_Core_DAO::executeQuery("INSERT into  civicrm_state_province (id, name, country_id) VALUES (13769,'Минск',1019)", CRM_Core_DAO::$_nullArray);
+  CRM_Core_DAO::executeQuery("INSERT into  civicrm_state_province (id, name, country_id) VALUES (13769,'Минск',1019)", CRM_Core_DAO::$_nullArray);
 }
 
 function belarus_loadcounties() {
