@@ -2,13 +2,13 @@
 
 require_once 'belarus.civix.php';
 
-function belarus_listcounties() {
+function belarus_listcounties($stateId) {
  $counties = array(
    //belarus counties
-		1996 => array(
+   1996 => array(
       'Барановичский',
-			'Берёзовский',
-			'Брестский',
+      'Берёзовский',
+      'Брестский',
       'Ганцевичский',
       'Дрогичинский',
       'Жабинковский',
@@ -27,7 +27,7 @@ function belarus_listcounties() {
       'Бешенковичский',
       'Браславский',
       'Верхнедвинский',
-			'Витебский',
+      'Витебский',
       'Глубокский',
       'Городокский',
       'Докшицкий',
@@ -93,7 +93,7 @@ function belarus_listcounties() {
      'Шкловский',
    ),
    1998 => array(
-   	 'Берестовицкий',
+     'Берестовицкий',
      'Волковысский',
      'Вороновский',
      'Гродненский',
@@ -130,7 +130,7 @@ function belarus_listcounties() {
     'Хойникский',
     'Чечерский',
     ),
-  13769 => array(
+  $stateId => array(
     'Заводской',
     'Ленинский',
     'Московский',
@@ -152,12 +152,23 @@ function belarus_updateStates() {
   CRM_Core_DAO::executeQuery("UPDATE civicrm_state_province SET name='Гродненская область' WHERE id=1998", CRM_Core_DAO::$_nullArray);
   CRM_Core_DAO::executeQuery("UPDATE civicrm_state_province SET name='Гомельская область' WHERE id=1997", CRM_Core_DAO::$_nullArray);
   CRM_Core_DAO::executeQuery("UPDATE civicrm_state_province SET name='Брестская область' WHERE id=1996", CRM_Core_DAO::$_nullArray);
-  CRM_Core_DAO::executeQuery("INSERT into  civicrm_state_province (id, name, country_id) VALUES (13769,'Минск',1019)", CRM_Core_DAO::$_nullArray);
+  $check = "SELECT id FROM civicrm_state_province WHERE name = 'Минск'";
+  $results = CRM_Core_DAO::executeQuery($check);
+  if ($results->fetch()) {
+      return $results->id;
+  } else {
+    CRM_Core_DAO::executeQuery("INSERT into  civicrm_state_province (name, country_id) VALUES ('Минск',1019)", CRM_Core_DAO::$_nullArray);
+    $sql = "SELECT id FROM civicrm_state_province WHERE name = 'Минск'";
+    $results = CRM_Core_DAO::executeQuery($sql);
+    if ($results->fetch()) {
+      return  $results->id;
+    }
+  }
 }
 
-function belarus_loadcounties() {
+function belarus_loadcounties($stateId) {
 
-  $counties = belarus_listcounties();
+  $counties = belarus_listcounties($stateId);
 
   static $dao = NULL;
   if (!$dao) {
@@ -199,8 +210,8 @@ function belarus_loadcounties() {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_install
  */
 function belarus_civicrm_install() {
-  belarus_updateStates();
-  belarus_loadcounties();
+  $stateID = belarus_updateStates();
+  belarus_loadcounties($stateID);
 }
 /**
  * Implementation of hook_civicrm_enable
@@ -208,8 +219,6 @@ function belarus_civicrm_install() {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_enable
  */
 function belarus_civicrm_enable() {
-  belarus_updateStates();
-  belarus_loadcounties();
 }
 
 /**
@@ -224,6 +233,4 @@ function belarus_civicrm_enable() {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_upgrade
  */
 function belarus_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
-  belarus_updateStates();
-  belarus_loadcounties();
 }
